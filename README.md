@@ -2,6 +2,8 @@
 
 A.1 Abstract
 This artifact evaluation describes a comprehensive frame- work for static IR drop prediction in Power Delivery Networks (PDNs) using advanced U-Net-based deep learning models. The artifact includes an end-to-end implementation featuring code, datasets, and detailed instructions to replicate and extend the experiments conducted in the study. The methodology leverages a multi-input U-Net architecture to integrate spatial, topological, and electrical characteristics inherent to PDNs, offering robust and scalable solutions for static IR drop analy- sis. The artifact was evaluated using synthetic and real-world datasets derived from ICCAD 2023 Contest Problem C. Key metrics such as Mean Absolute Error (MAE), Mean Squared Error (MSE), runtime efficiency were used to validate model performance. The setup is hosted on Google Colab, employing NVIDIA T4 and L4 GPUs for efficient training and inference. This artifact enables users to explore model behavior, assess scalability, and extend the framework for broader applications in PDN analysis.
+
+
 A.2 Artifact Check-list (Meta-information)
 • Program: Python implementation using TensorFlow and Keras frameworks.
 • Model: U-Net-based architecture with multi-input han- dling, incorporating dense connections and hybrid loss functions.
@@ -19,6 +21,8 @@ datasets, and dependencies.
 • Experiment Time: Full training and evaluation com-
 pleted in approximately 6 hours.
 • Availability: Publicly accessible through GitHub.
+
+
 A.3 Description
 A.3.1 How to Access: The artifact is hosted on a public GitHub repository. Users can clone the repository and follow the README file for setup and execution instructions. The
 repository includes scripts for preprocessing, training, evalua- tion, and visualization, ensuring a seamless replication of the study.
@@ -30,6 +34,8 @@ a) 1. U-Net Architecture: The U-Net model serves as the foundational architectur
 b) 2. Dense U-Net Architecture: The Dense U-Net ex- tends the traditional U-Net by incorporating dense connectivity patterns within each block. In this architecture, each layer receives input from all preceding layers in the same block, fostering feature reuse and improving gradient flow. This dense connectivity enhances the model’s ability to capture complex spatial and topological variations, particularly in high-density PDNs. The Dense U-Net also integrates attention
 mechanisms to emphasize critical regions prone to significant IR drops, boosting its structural accuracy. Training the Dense U-Net required the computational power of an NVIDIA L4 GPU, which provided the necessary resources for handling the model’s increased complexity while maintaining efficient runtime performance.
 c) 3. GAN-Based Architecture: The Generative Adver- sarial Network (GAN) architecture comprises a generator and a discriminator, working in an adversarial framework to produce high-fidelity predictions. The generator is modeled as a Dense U-Net, tasked with predicting IR drop distributions, while the discriminator evaluates the realism of the generated predictions. The GAN framework promotes sharper and more realistic outputs by balancing the pixel-wise accuracy of the generator with the structural consistency enforced by the discriminator. This model is particularly effective in high- gradient regions, where traditional approaches may struggle with oversmoothing. The GAN-based architecture was trained using an NVIDIA L4 GPU to accommodate the intensive adversarial training process.
+
+
 A.4 Installation
 To set up the artifact:
 1) Clone the repository from GitHub.
@@ -39,6 +45,8 @@ install -r requirements.txt.
 in the repository.
 4) If using Google Colab, upload the repository and
 datasets to Colab, ensuring GPU acceleration is enabled in runtime settings.
+
+
 A.5 Experiment Workflow
 The artifact follows a structured workflow to simplify ex- perimentation:
 • Data Preprocessing: Normalize and resize the datasets using the provided preprocessing scripts. The inputs are aligned to a consistent shape (128×128) and normalized to a range of 0 to 1 for numerical stability.
@@ -46,12 +54,16 @@ The artifact follows a structured workflow to simplify ex- perimentation:
 • Evaluation: Evaluate the trained model on the test dataset, calculating metrics such as MAE and MSE.
 • Visualization: Generate plots comparing predicted and actual IR drop distributions, as well as training and validation loss curves.
 • Customization: Modify the scripts to explore alternative architectures, datasets, or loss functions.
+
+
 A.6 Evaluation and Expected Results
 The artifact produces the following outputs:
 • Training Logs: Detailed logs capturing training and validation losses over epochs.
 • Testing Metrics: MAE, MSE, and runtime metrics for test datasets, offering insights into model performance.
 • Visualizations: Side-by-side comparisons of predicted vs. actual IR drops, along with loss curves over epochs. • Model Checkpoints: Saved weights of trained models,
 enabling further exploration and extension.
+
+
 A.7 Experiment Customization
 The codebase is designed for extensibility, allowing users to:
 • Adjust hyperparameters directly in the training scripts (e.g., batch size, learning rate, and number of epochs). • Replace default datasets with new data by updating file
@@ -59,7 +71,10 @@ paths in the preprocessing scripts.
 • Integrate custom loss functions by modifying the
 losses.py module.
 • Experiment with alternative architectures by creating new
-models in the models directory. A.8 Methodology
+models in the models directory.
+
+
+ A.8 Methodology
 The artifact employs a structured methodology to ensure reproducibility and scalability for static IR drop prediction. Datasets from ICCAD 2023 Contest Problem C, including synthetic and real-world circuits, were preprocessed by nor- malizing feature maps (current, PDN density, effective dis- tance, and IR drop maps) to a range of 0 to 1 and resizing them to 128 × 128 for consistency. A 90:10 train-test split ensured robust evaluation, while optional data augmentation techniques, such as rotations and flips, improved robustness.
 Model training utilized U-Net, Dense U-Net, and GAN architectures with a hybrid loss function combining MSE for pixel-level accuracy and perceptual loss for preserving struc- tural details using VGG19 features. Training was conducted on Google Colab using NVIDIA T4 GPUs for U-Net and L4 GPUs for the more complex Dense U-Net and GAN models. Default settings included a learning rate of 0.0001, a batch size of 16, and 500 epochs, with optional early stopping to prevent overfitting.
 Evaluation focused on accuracy and fidelity, using metrics like MAE and MSE, alongside visual comparisons of predicted and actual IR drop maps. Controlled environments ensured reproducibility, and pre-trained model checkpoints were saved for further use. Robustness was tested across varying dataset complexities and hardware configurations. The models demon- strated adaptability on diverse GPUs (T4 and L4) and CPUs, with stress tests confirming reliable performance in challeng- ing regions such as high-gradient zones.
